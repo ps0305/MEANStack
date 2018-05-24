@@ -1,46 +1,52 @@
-//importing the modules
+//import the modules
 var express = require("express");
-var bodyparser = require("body-parser");
 var mongodb = require("mongodb");
+var bodyparser = require("body-parser");
 
-//create the REST object
+
+//create the Rest Object
 var app = express();
 
-//enable the CORS(enabling communication between different ports)
+//Enable the CORS
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();//next=>middleware
-  });
+    next();
+});
 
-//Deploying the angular application into server
+//Deploy the Angular Application into Server
 app.use(express.static(__dirname+"/../MEANStack"));
-//server automatically launches the index.html
+//server automatically launches the "index.html" file by default
 
-//set JSON as MIME type
+//set the json as mime type
 app.use(bodyparser.json());
 
-//Setting form data as false
+
+//set the form data as false
 app.use(bodyparser.urlencoded({extended:false}));
 
-//Create the Client
+
+//create the client
 var ps = mongodb.MongoClient;
 
-//Create the RESt API
+
+//create the Rest API
 app.post("/insert",function(req,res){
-    var my_obj={
-        p_id:req.body.p_id,
-        p_name:req.body.p_name,
-        p_cost:body.p_cost
-    };
+    var my_obj = {p_id:req.body.p_id,
+                  p_name:req.body.p_name,
+                  p_cost:req.body.p_cost};
     ps.connect("mongodb://localhost:27017/nodedb",function(err,db){
         db.collection("products").insertOne(my_obj,function(err,result){
             if(err){
-                console.log("Error while inserting the data")
+                console.log("Error while Inserting the Record !");
             }else{
-                res.send({message:"records inserted successfully"});
+                res.send({message:'record inserted successfully !'});
             }
         });
     });
-
 });
+
+
+//Assign the port no.
+app.listen(8080);
+console.log("Server Listening the port no.8080");

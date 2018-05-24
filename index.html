@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html ng-app="app" ng-controller="productController">
+
+    <label>P_id</label>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+    <input type="number" ng-model="p_id">
+
+    <br><br>
+    <label>P_Name</label>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+    <input type="text" ng-model="p_name">
+
+    <br><br>
+    <label>P_Cost</label>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+    <input type="number" ng-model="p_cost">
+
+    <br><br>
+    <button ng-click="clickMe({'p_id':p_id,'p_name':p_name,'p_cost':p_cost})">Insert</button>
+
+    <br><br>
+    <h1>{{result}}</h1>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.0/angular.min.js"></script>
+    <script>
+        var app = angular.module("app",[]);
+
+        app.service("productService",function($http){
+            this.insertRecord = function(obj){
+                return $http.post("http://localhost:8080/insert",obj)
+                            .then(function(posRes){ return posRes; },
+                                  function(errRes){ return errRes; });
+            };
+        });
+
+        app.controller("productController",function($scope,productService){
+            $scope.clickMe = function(obj){
+                productService.insertRecord(obj).then(function(res){
+                    $scope.result = res;
+                });
+            }
+        });
+ </script>
+</html>
