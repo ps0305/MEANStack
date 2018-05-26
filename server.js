@@ -42,6 +42,13 @@ app.post("/insert",function(req,res){
             }else{
                 res.send({message:'record inserted successfully !'});
             }
+
+        var update=require("./update/update");
+        app.use("/update",update);
+
+        var remove =require("./delete/delete");
+        app.use("/remove",remove);
+
         });
     });
 });
