@@ -25,6 +25,12 @@ app.use(bodyparser.json());
 //set the form data as false
 app.use(bodyparser.urlencoded({extended:false}));
 
+        var update=require("./update/update");
+        app.use("/update",update);
+
+        var remove =require("./delete/delete");
+        app.use("/remove",remove);
+
 
 //create the client
 var ps = mongodb.MongoClient;
@@ -42,16 +48,14 @@ app.post("/insert",function(req,res){
             }else{
                 res.send({message:'record inserted successfully !'});
             }
+        
 
-        var update=require("./update/update");
-        app.use("/update",update);
-
-        var remove =require("./delete/delete");
-        app.use("/remove",remove);
+        
 
         });
     });
 });
+        
 
 
 //Assign the port no.
